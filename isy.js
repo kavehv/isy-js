@@ -677,7 +677,7 @@ ISY.prototype.sendISYCommand = function(path, handleResult) {
     };
     var that = this;
     var retryAttempt = 0;
-    var retryTime = 50;
+    var retryTime = 100;
 
     restler.get(uriToUse, options).on('complete', function (data, response) {
         if (response.statusCode == 200) {
@@ -708,13 +708,13 @@ ISY.prototype.sendRestCommand = function(deviceAddress, command, parameter, hand
     };
     var that = this;
     var retryAttempt = 0;
-    var retryTime = 50;
+    var retryTime = 10;
 
     restler.get(uriToUse, options).on('complete', function (data, response) {
         if (response.statusCode == 200) {
             that.logger("ISY-JS: Command succeeded "+uriToUse);
             handleResult(true);
-        } else if ((retryAttempt < 5) && (response.statusCode == 404)) {
+        } else if ((retryAttempt < 10) && (response.statusCode == 404)) {
             that.logger(`ISY-JS: Command failed with ${response.statusCode}` +
                         ` after ${retryAttempt} retries. Retrying in ${retryTime}` +
                         ` at ${uriToUse}`);
